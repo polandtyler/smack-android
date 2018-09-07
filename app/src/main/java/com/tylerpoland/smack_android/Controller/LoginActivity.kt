@@ -7,7 +7,6 @@ import android.view.View
 import com.tylerpoland.smack_android.R
 import com.tylerpoland.smack_android.Services.AuthService
 import kotlinx.android.synthetic.main.activity_login.*
-import kotlinx.android.synthetic.main.nav_header_main.*
 
 class LoginActivity : AppCompatActivity() {
 
