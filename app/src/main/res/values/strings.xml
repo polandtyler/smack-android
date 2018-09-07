@@ -6,4 +6,13 @@
     <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
     <string name="action_settings">Settings</string>
+    <string name="email">email</string>
+    <string name="password">password</string>
+    <string name="login">Login</string>
+    <string name="dont_have_an_account">Dont have an account?</string>
+    <string name="sign_up_here">Sign Up Here</string>
+    <string name="please_log_in">Please Log In</string>
+    <string name="message_hint">message:</string>
+    <string name="send_message_button">send message button</string>
+    <string name="add_channel_button">add channel button</string>
 </resources>
