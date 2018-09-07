@@ -15,4 +15,8 @@
     <string name="message_hint">message:</string>
     <string name="send_message_button">send message button</string>
     <string name="add_channel_button">add channel button</string>
+    <string name="username">username</string>
+    <string name="tap_to_generate_user_avatar">Tap to generate user avatar</string>
+    <string name="create_user_avatar_image">create user avatar image</string>
+    <string name="create_user">Create User</string>
 </resources>
