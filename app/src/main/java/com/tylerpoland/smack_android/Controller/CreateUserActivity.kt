@@ -1,9 +1,11 @@
-package com.tylerpoland.smack_android
+package com.tylerpoland.smack_android.Controller
 
 import android.graphics.Color
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.tylerpoland.smack_android.R
+import com.tylerpoland.smack_android.Services.AuthService
 import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.*
 
@@ -18,10 +20,16 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     fun createCreateUserButtonClicked(view: View) {
-
+        AuthService.registerUser(this, createUsernameField.text.toString(), createPasswordField.text.toString()) { complete ->
+            if (complete) {
+                println("user registered")
+            } else {
+                println("UH OH! SOMETHING BAAAAAAAD HAPPENED.")
+            }
+        }
     }
 
-    fun createGenerateUserButtonClicked(view: View) {
+    fun generateUserAvatarClicked(view: View) {
         val random = Random()
         val color = random.nextInt(2) // upper bound, not inclusive
         val avatar = random.nextInt(28)
@@ -35,7 +43,7 @@ class CreateUserActivity : AppCompatActivity() {
         createUserAvatarImageButton.setImageResource(resourceID)
     }
 
-    fun generateNewColorButtonClicked(view: View) {
+    fun generateColorClicked(view: View) {
         val random = Random()
         val r = random.nextInt(255)
         val g = random.nextInt(255)

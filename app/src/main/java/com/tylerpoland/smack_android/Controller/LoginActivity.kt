@@ -1,9 +1,13 @@
-package com.tylerpoland.smack_android
+package com.tylerpoland.smack_android.Controller
 
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.view.View
+import com.tylerpoland.smack_android.R
+import com.tylerpoland.smack_android.Services.AuthService
+import kotlinx.android.synthetic.main.activity_login.*
+import kotlinx.android.synthetic.main.nav_header_main.*
 
 class LoginActivity : AppCompatActivity() {
 
@@ -13,7 +17,13 @@ class LoginActivity : AppCompatActivity() {
     }
 
     fun loginLoginButtonClicked(view: View) {
-
+        AuthService.loginUser(this, loginEmailText.text.toString(), loginPasswordText.text.toString()) { token ->
+            if (token != null) {
+                println("TOKEN: $token")
+            } else {
+                println("OH NO! THERE WAS A PROBLEM LOGGING IN!")
+            }
+        }
     }
 
     fun loginCreateUserButtonClicked(view: View) {
