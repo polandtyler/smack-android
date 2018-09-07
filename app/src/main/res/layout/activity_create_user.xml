@@ -61,14 +61,15 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
 
-    <ImageView
-        android:id="@+id/createUserAvatarImage"
+    <ImageButton
+        android:id="@+id/createUserAvatarImageButton"
         android:layout_width="100dp"
         android:layout_height="100dp"
         android:layout_marginEnd="8dp"
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/create_user_avatar_image"
+        android:onClick="createGenerateUserButtonClicked"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -76,19 +77,20 @@
         app:srcCompat="@drawable/profiledefault" />
 
     <Button
-        android:id="@+id/createTapGenerateUserButton"
+        android:id="@+id/generateNewColorButton"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="32dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
-        android:onClick="createTapGenerateUserButtonClicked"
-        android:text="@string/tap_to_generate_user_avatar"
+        android:onClick="generateNewColorButtonClicked"
+        android:text="Generate new color"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/createUserAvatarImage" />
+        app:layout_constraintTop_toBottomOf="@+id/createUserAvatarImageButton" />
 
     <Button
         android:id="@+id/createCreateUserButton"
@@ -104,4 +106,5 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
+
 </android.support.constraint.ConstraintLayout>
