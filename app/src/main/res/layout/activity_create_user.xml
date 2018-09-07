@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CreateUserActivity">
+    tools:context=".Controller.CreateUserActivity">
 
     <LinearLayout
         android:id="@+id/linearLayout2"
@@ -69,7 +69,7 @@
         android:layout_marginStart="8dp"
         android:layout_marginTop="16dp"
         android:contentDescription="@string/create_user_avatar_image"
-        android:onClick="createGenerateUserButtonClicked"
+        android:onClick="generateUserAvatarClicked"
         android:scaleType="fitXY"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -84,7 +84,7 @@
         android:layout_marginStart="32dp"
         android:layout_marginTop="16dp"
         android:background="@color/colorPrimary"
-        android:onClick="generateNewColorButtonClicked"
+        android:onClick="generateColorClicked"
         android:text="Generate new color"
         android:textColor="@android:color/white"
         app:layout_constraintEnd_toEndOf="parent"
