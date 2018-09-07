@@ -20,11 +20,16 @@ class CreateUserActivity : AppCompatActivity() {
     }
 
     fun createCreateUserButtonClicked(view: View) {
-        AuthService.registerUser(this, createUsernameField.text.toString(), createPasswordField.text.toString()) { complete ->
-            if (complete) {
+        AuthService.registerUser(this, createEmailField.text.toString(), createPasswordField.text.toString()) { registerSuccess ->
+            if (registerSuccess) {
                 println("user registered")
+                AuthService.loginUser(this, createEmailField.text.toString(), createPasswordField.text.toString()) { loginSuccess ->
+                    if (loginSuccess) {
+                        println("user was successfully logged in: TOKEN: ${AuthService.authToken}, EMAIL: ${AuthService.userEmail}")
+                    }
+                }
             } else {
-                println("UH OH! SOMETHING BAAAAAAAD HAPPENED.")
+                println("UH OH! SOMETHING BAAAAAAAD HAPPENED. 🐑")
             }
         }
     }

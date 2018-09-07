@@ -4,13 +4,19 @@ import android.content.Context
 import android.util.Log
 import com.android.volley.Request
 import com.android.volley.Response
+import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
 import com.tylerpoland.smack_android.Utils.URL_LOGIN
 import com.tylerpoland.smack_android.Utils.URL_REGISTER
+import org.json.JSONException
 import org.json.JSONObject
 
 object AuthService {
+
+    var isLoggedIn = false
+    var userEmail = ""
+    var authToken = ""
 
     fun registerUser(context: Context, email: String, password: String, completion: (Boolean) -> Unit) {
         val url = URL_REGISTER
@@ -43,7 +49,7 @@ object AuthService {
         Volley.newRequestQueue(context).add(registerRequest)
     }
 
-    fun loginUser(context: Context, email: String, password: String, completion: (String?) -> Unit?) {
+    fun loginUser(context: Context, email: String, password: String, completion: (Boolean) -> Unit?) {
         val url = URL_LOGIN
 
         val jsonBody = JSONObject()
@@ -51,11 +57,20 @@ object AuthService {
         jsonBody.put("password", password)
         val requestBody = jsonBody.toString()
 
-        val loginRequest = object: StringRequest(Request.Method.POST, url, Response.Listener { tokenString ->
-            completion(tokenString)
+        val loginRequest = object: JsonObjectRequest(Request.Method.POST, url, null, Response.Listener { response ->
+            try {
+                authToken = response.getString("token")
+                userEmail = response.getString("user")
+                isLoggedIn = true
+                completion(true)
+            } catch (e: JSONException) {
+                Log.d("JSON", "EXC: " + e.localizedMessage)
+                completion(false)
+            }
+
         }, Response.ErrorListener { error ->
             Log.d("ERROR", "Login error: $error")
-            completion(null)
+            completion(false)
         }) {
             override fun getBodyContentType(): String {
                 return "application/json;charset=utf-8"
