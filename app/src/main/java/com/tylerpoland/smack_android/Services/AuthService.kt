@@ -45,7 +45,6 @@ object AuthService {
                 return requestBody.toByteArray()
             }
         }
-
         // add to queue
         Volley.newRequestQueue(context).add(registerRequest)
     }
@@ -81,7 +80,6 @@ object AuthService {
                 return requestBody.toByteArray()
             }
         }
-
         Volley.newRequestQueue(context).add(loginRequest)
     }
 
