@@ -6,6 +6,7 @@ import android.os.Bundle
 import android.view.View
 import com.tylerpoland.smack_android.R
 import com.tylerpoland.smack_android.Services.AuthService
+import com.tylerpoland.smack_android.Services.UserDataService
 import kotlinx.android.synthetic.main.activity_create_user.*
 import java.util.*
 
@@ -19,13 +20,24 @@ class CreateUserActivity : AppCompatActivity() {
         setContentView(R.layout.activity_create_user)
     }
 
-    fun createCreateUserButtonClicked(view: View) {
-        AuthService.registerUser(this, createEmailField.text.toString(), createPasswordField.text.toString()) { registerSuccess ->
+    fun createUserClicked(view: View) {
+
+        val userName = createUsernameField.text.toString()
+        val email = createEmailField.text.toString()
+        val password = createPasswordField.text.toString()
+
+        AuthService.registerUser(this, email, password) { registerSuccess ->
             if (registerSuccess) {
-                println("user registered")
-                AuthService.loginUser(this, createEmailField.text.toString(), createPasswordField.text.toString()) { loginSuccess ->
+                AuthService.loginUser(this, email, password) { loginSuccess ->
                     if (loginSuccess) {
-                        println("user was successfully logged in: TOKEN: ${AuthService.authToken}, EMAIL: ${AuthService.userEmail}")
+                        AuthService.createUser(this, userName, email, userAvatar, avatarColor) {createSuccess ->
+                            if (createSuccess) {
+//                                println(UserDataService.avatarColor)
+//                                println(UserDataService.avatarName)
+//                                println(UserDataService.name)
+                                finish()
+                            }
+                        }
                     }
                 }
             } else {
