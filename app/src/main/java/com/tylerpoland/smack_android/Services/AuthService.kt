@@ -125,7 +125,7 @@ object AuthService {
     }
     
     fun findUserByEmail(context: Context, completion: (Boolean) -> Unit) {
-        val findUserRequest: object: JsonObjectRequest(Method.GET, "$URL_GET_USER$userEmail", null, Response.Listener { response ->  
+        val findUserRequest = object: JsonObjectRequest(Method.GET, "$URL_GET_USER$userEmail", null, Response.Listener { response ->
             try {
                 UserDataService.name = response.getString("name")
                 UserDataService.email = response.getString("email")
@@ -134,7 +134,7 @@ object AuthService {
                 UserDataService.id = response.getString("_id")
 
                 val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
-                LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
+                LocalBroadcastManager.getInstance(context).sendBroadcast(userDataChange)
 
                 completion(true)
             } catch (e: JSONException) {
