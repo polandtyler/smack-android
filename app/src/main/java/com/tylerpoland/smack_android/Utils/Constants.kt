@@ -12,7 +12,7 @@ const val URL_MESSAGE_BY_CHANNEL = "${BASE_URL}message/byChannel/"
 const val URL_MESSAGE_ADD = "${BASE_URL}message/add"
 const val URL_USER = "${BASE_URL}user/"
 const val URL_CREATE_USER = "${BASE_URL}user/add"
-const val URL_USER_BY_EMAIL = "${BASE_URL}user/byEmail/"
+const val URL_GET_USER = "${BASE_URL}user/byEmail/"
 
 /*
 Broadcast Constants
