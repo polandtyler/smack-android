@@ -17,11 +17,7 @@ class LoginActivity : AppCompatActivity() {
 
     fun loginLoginButtonClicked(view: View) {
         AuthService.loginUser(this, loginEmailText.text.toString(), loginPasswordText.text.toString()) { token ->
-            if (token != null) {
-                println("TOKEN: $token")
-            } else {
-                println("OH NO! THERE WAS A PROBLEM LOGGING IN!")
-            }
+            if (token) println("TOKEN: $token") else println("OH NO! THERE WAS A PROBLEM LOGGING IN!")
         }
     }
 
