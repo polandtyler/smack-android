@@ -1,10 +1,12 @@
 package com.tylerpoland.smack_android.Controller
 
+import android.content.Context
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.view.View
+import android.view.inputmethod.InputMethodManager
 import android.widget.Toast
 import com.tylerpoland.smack_android.R
 import com.tylerpoland.smack_android.Services.AuthService
@@ -21,22 +23,28 @@ class LoginActivity : AppCompatActivity() {
 
     fun loginLoginButtonClicked(view: View) {
         enableSpinner(true)
-        val email = loginEmailText.text.toString()
-        val password = loginPasswordText.text.toString()
+        val email = this.loginEmailText.text.toString()
+        val password = this.loginPasswordText.text.toString()
+        hideKeyboard()
 
-        AuthService.loginUser(this, email, password) { authSuccess ->
-            if (authSuccess) {
-                AuthService.findUserByEmail(this) { findSuccess ->
-                    if (findSuccess) {
-                        enableSpinner(false)
-                        finish()
-                    } else {
-                        errorToast(false)
+        if (email.isNotEmpty() && password.isNotEmpty()) {
+            AuthService.loginUser(this, email, password) { authSuccess ->
+                if (authSuccess) {
+                    AuthService.findUserByEmail(this) { findSuccess ->
+                        if (findSuccess) {
+                            enableSpinner(false)
+                            finish()
+                        } else {
+                            errorToast(false)
+                        }
                     }
+                } else {
+                    errorToast(false)
                 }
-            } else {
-                errorToast(false)
             }
+        } else {
+            Toast.makeText(this, "Make sure email and password fields have a value before continuing.", Toast.LENGTH_SHORT).show()
+            enableSpinner(false)
         }
     }
 
@@ -59,5 +67,12 @@ class LoginActivity : AppCompatActivity() {
         }
         loginCreateUserButton.isEnabled = !enable
         loginLoginButton.isEnabled = !enable
+    }
+
+    private fun hideKeyboard() {
+        val inputManager = getSystemService(Context.INPUT_METHOD_SERVICE) as InputMethodManager
+        if (inputManager.isAcceptingText) {
+            inputManager.hideSoftInputFromWindow(currentFocus?.windowToken, 0)
+        }
     }
 }
