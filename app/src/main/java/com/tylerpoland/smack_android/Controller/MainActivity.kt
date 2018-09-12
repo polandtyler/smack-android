@@ -14,12 +14,15 @@ import android.support.v7.app.AppCompatActivity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
+import com.tylerpoland.smack_android.Model.Channel
 import com.tylerpoland.smack_android.R
 import com.tylerpoland.smack_android.Services.AuthService
+import com.tylerpoland.smack_android.Services.MessageService
 import com.tylerpoland.smack_android.Services.UserDataService
 import com.tylerpoland.smack_android.Utils.BROADCAST_USER_DATA_CHANGE
 import com.tylerpoland.smack_android.Utils.SOCKET_URL
 import io.socket.client.IO
+import io.socket.emitter.Emitter
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
@@ -33,6 +36,11 @@ class MainActivity : AppCompatActivity() {
         setContentView(R.layout.activity_main)
         setSupportActionBar(toolbar)
 
+        // connect to server
+        socket.connect()
+        // what to do when channel is created
+        socket.on("channelCreated", onNewChannel)
+
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -41,12 +49,12 @@ class MainActivity : AppCompatActivity() {
 
     override fun onResume() {
         LocalBroadcastManager.getInstance(this).registerReceiver(userDataChangeReceiver, IntentFilter(BROADCAST_USER_DATA_CHANGE))
-        socket.connect()
         super.onResume()
     }
 
     override fun onDestroy() {
         socket.disconnect()
+        LocalBroadcastManager.getInstance(this).unregisterReceiver(userDataChangeReceiver)
         super.onDestroy()
     }
 
@@ -106,6 +114,18 @@ class MainActivity : AppCompatActivity() {
                         // cancel and close the dialog
                     }
                     .show()
+        }
+    }
+
+    private val onNewChannel = Emitter.Listener { args ->
+        runOnUiThread {
+            val channelName = args[0] as String
+            val channelDesc = args[1] as String
+            val channelId = args[2] as String
+
+            val newChannel = Channel(channelName, channelDesc, channelId)
+            MessageService.channels.add(newChannel)
+            println("${newChannel.name} - ${newChannel.description} - ${newChannel.id}")
         }
     }
 
