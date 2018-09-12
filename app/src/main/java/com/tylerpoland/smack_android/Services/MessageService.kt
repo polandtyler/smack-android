@@ -13,6 +13,7 @@ import org.json.JSONException
 object MessageService {
 
     val channels = ArrayList<Channel>()
+    private val queue = App.sharedPreferences.requestQueue
 
     fun getChannels(context: Context, completion: (Boolean) -> Unit) {
         val channelsRequest = object: JsonArrayRequest(Method.GET, URL_GET_CHANNELS, null, Response.Listener { response ->
@@ -45,6 +46,6 @@ object MessageService {
                 return headers
             }
         }
-        Volley.newRequestQueue(context).add(channelsRequest)
+        queue.add(channelsRequest)
     }
 }

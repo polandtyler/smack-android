@@ -19,6 +19,7 @@ object AuthService {
     var isLoggedIn = false
     var userEmail = ""
     var authToken = ""
+    private val queue = App.sharedPreferences.requestQueue
 
     fun registerUser(context: Context, email: String, password: String, completion: (Boolean) -> Unit) {
         val url = URL_REGISTER
@@ -47,7 +48,7 @@ object AuthService {
             }
         }
         // add to queue
-        Volley.newRequestQueue(context).add(registerRequest)
+        queue.add(registerRequest)
     }
 
     fun loginUser(context: Context, email: String, password: String, completion: (Boolean) -> Unit?) {
@@ -81,7 +82,7 @@ object AuthService {
                 return requestBody.toByteArray()
             }
         }
-        Volley.newRequestQueue(context).add(loginRequest)
+        queue.add(loginRequest)
     }
 
     fun createUser(context: Context, name: String, email: String, avatarName: String, avatarColor: String, completion: (Boolean) -> Unit) {
@@ -122,7 +123,7 @@ object AuthService {
                 return headers
             }
         }
-        Volley.newRequestQueue(context).add(createUserRequest)
+        queue.add(createUserRequest)
     }
     
     fun findUserByEmail(context: Context, completion: (Boolean) -> Unit) {
@@ -156,6 +157,6 @@ object AuthService {
                 return headers
             }
         }
-        Volley.newRequestQueue(context).add(findUserRequest)
+        queue.add(findUserRequest)
     }
 }

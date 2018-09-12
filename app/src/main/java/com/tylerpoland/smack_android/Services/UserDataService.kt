@@ -14,16 +14,17 @@ object UserDataService {
     var email = ""
     var name = ""
 
+    private val prefs = App.sharedPreferences
+
     fun logout() {
         id = ""
         avatarColor = ""
         avatarName = ""
         email = ""
         name = ""
-        App.sharedPreferences.authToken = ""
-        App.sharedPreferences.userEmail = ""
-        App.sharedPreferences.isLoggedIn = false
-
+        prefs.authToken = ""
+        prefs.userEmail = ""
+        prefs.isLoggedIn = false
     }
 
     fun returnAvatarColor(components: String) : Int {
