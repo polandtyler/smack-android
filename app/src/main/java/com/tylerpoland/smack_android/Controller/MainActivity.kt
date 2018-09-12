@@ -19,6 +19,7 @@ import android.widget.EditText
 import com.tylerpoland.smack_android.Model.Channel
 import com.tylerpoland.smack_android.R
 import com.tylerpoland.smack_android.Services.AuthService
+import com.tylerpoland.smack_android.Services.AuthService.isLoggedIn
 import com.tylerpoland.smack_android.Services.MessageService
 import com.tylerpoland.smack_android.Services.UserDataService
 import com.tylerpoland.smack_android.Utils.BROADCAST_USER_DATA_CHANGE
@@ -54,6 +55,11 @@ class MainActivity : AppCompatActivity() {
         drawer_layout.addDrawerListener(toggle)
         toggle.syncState()
         setUpAdapters()
+
+        if (App.sharedPreferences.isLoggedIn) {
+            println("User was previously logged in.")
+            AuthService.findUserByEmail(this) {}
+        }
     }
 
     override fun onResume() {
@@ -69,7 +75,7 @@ class MainActivity : AppCompatActivity() {
 
     private val userDataChangeReceiver = object: BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent?) {
-            if (AuthService.isLoggedIn) {
+            if (App.sharedPreferences.isLoggedIn) {
                 usernameNavheader.text = UserDataService.name
                 userEmailNavHeader.text = UserDataService.email
                 val resourceId = resources.getIdentifier(UserDataService.avatarName, "drawable", packageName)
@@ -95,7 +101,7 @@ class MainActivity : AppCompatActivity() {
     }
 
     fun loginButtonNavClicked(view: View) {
-        if (AuthService.isLoggedIn) {
+        if (App.sharedPreferences.isLoggedIn) {
             UserDataService.logout()
             usernameNavheader.text = "Login"
             userEmailNavHeader.text = ""
@@ -110,7 +116,7 @@ class MainActivity : AppCompatActivity() {
 
     fun addChannelButtonClicked(view: View) {
         // display alert dialog
-        if (AuthService.isLoggedIn) {
+        if (App.sharedPreferences.isLoggedIn) {
             val alertBuilder = AlertDialog.Builder(this)
             val dialogView = layoutInflater.inflate(R.layout.add_channel_dialog, null)
 

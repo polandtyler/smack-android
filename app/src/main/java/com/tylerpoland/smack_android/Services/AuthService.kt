@@ -9,6 +9,7 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
 import com.android.volley.toolbox.Volley
+import com.tylerpoland.smack_android.Controller.App
 import com.tylerpoland.smack_android.Utils.*
 import org.json.JSONException
 import org.json.JSONObject
@@ -59,9 +60,9 @@ object AuthService {
 
         val loginRequest = object: JsonObjectRequest(Request.Method.POST, url, null, Response.Listener { response ->
             try {
-                authToken = response.getString("token")
-                userEmail = response.getString("user")
-                isLoggedIn = true
+                App.sharedPreferences.authToken = response.getString("token")
+                App.sharedPreferences.userEmail = response.getString("user")
+                App.sharedPreferences.isLoggedIn = true
                 completion(true)
             } catch (e: JSONException) {
                 Log.d("JSON", "EXC: " + e.localizedMessage)
@@ -117,7 +118,7 @@ object AuthService {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                headers["Authorization"] = "Bearer $authToken"
+                headers["Authorization"] = "Bearer ${App.sharedPreferences.authToken}"
                 return headers
             }
         }
@@ -125,7 +126,7 @@ object AuthService {
     }
     
     fun findUserByEmail(context: Context, completion: (Boolean) -> Unit) {
-        val findUserRequest = object: JsonObjectRequest(Method.GET, "$URL_GET_USER$userEmail", null, Response.Listener { response ->
+        val findUserRequest = object: JsonObjectRequest(Method.GET, "$URL_GET_USER${App.sharedPreferences.userEmail}", null, Response.Listener { response ->
             try {
                 UserDataService.name = response.getString("name")
                 UserDataService.email = response.getString("email")
@@ -151,7 +152,7 @@ object AuthService {
 
             override fun getHeaders(): MutableMap<String, String> {
                 val headers = HashMap<String, String>()
-                headers["Authorization"] = "Bearer $authToken"
+                headers["Authorization"] = "Bearer ${App.sharedPreferences.authToken}"
                 return headers
             }
         }

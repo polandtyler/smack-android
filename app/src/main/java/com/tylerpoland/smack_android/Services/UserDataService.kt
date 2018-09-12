@@ -1,6 +1,7 @@
 package com.tylerpoland.smack_android.Services
 
 import android.graphics.Color
+import com.tylerpoland.smack_android.Controller.App
 import com.tylerpoland.smack_android.Utils.URL_CREATE_USER
 import java.util.*
 
@@ -19,9 +20,10 @@ object UserDataService {
         avatarName = ""
         email = ""
         name = ""
-        AuthService.authToken = ""
-        AuthService.userEmail = ""
-        AuthService.isLoggedIn = false
+        App.sharedPreferences.authToken = ""
+        App.sharedPreferences.userEmail = ""
+        App.sharedPreferences.isLoggedIn = false
+
     }
 
     fun returnAvatarColor(components: String) : Int {

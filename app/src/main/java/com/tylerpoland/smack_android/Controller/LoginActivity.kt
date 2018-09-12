@@ -37,7 +37,7 @@ class LoginActivity : AppCompatActivity() {
                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
                     AuthService.findUserByEmail(this) { findSuccess ->
                         if (findSuccess) {
-                            AuthService.isLoggedIn = true
+                            App.sharedPreferences.isLoggedIn = true
                             enableSpinner(false)
                             finish()
                         } else {
@@ -62,6 +62,7 @@ class LoginActivity : AppCompatActivity() {
 
     private fun errorToast(enable: Boolean) {
         Toast.makeText(this, "There was an error logging in the user.", Toast.LENGTH_SHORT).show()
+        App.sharedPreferences.isLoggedIn = false
         enableSpinner(enable)
     }
 
