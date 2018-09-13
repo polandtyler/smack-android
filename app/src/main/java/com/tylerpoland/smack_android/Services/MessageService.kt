@@ -1,10 +1,8 @@
 package com.tylerpoland.smack_android.Services
 
-import android.content.Context
 import android.util.Log
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
-import com.android.volley.toolbox.Volley
 import com.tylerpoland.smack_android.Controller.App
 import com.tylerpoland.smack_android.Model.Channel
 import com.tylerpoland.smack_android.Utils.URL_GET_CHANNELS
@@ -15,7 +13,7 @@ object MessageService {
     val channels = ArrayList<Channel>()
     private val queue = App.sharedPreferences.requestQueue
 
-    fun getChannels(context: Context, completion: (Boolean) -> Unit) {
+    fun getChannels(completion: (Boolean) -> Unit) {
         val channelsRequest = object: JsonArrayRequest(Method.GET, URL_GET_CHANNELS, null, Response.Listener { response ->
             try {
                 for (index in 0 until response.length()) {

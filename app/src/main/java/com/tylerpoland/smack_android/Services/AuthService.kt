@@ -8,7 +8,6 @@ import com.android.volley.Request
 import com.android.volley.Response
 import com.android.volley.toolbox.JsonObjectRequest
 import com.android.volley.toolbox.StringRequest
-import com.android.volley.toolbox.Volley
 import com.tylerpoland.smack_android.Controller.App
 import com.tylerpoland.smack_android.Utils.*
 import org.json.JSONException
@@ -21,7 +20,7 @@ object AuthService {
     var authToken = ""
     private val queue = App.sharedPreferences.requestQueue
 
-    fun registerUser(context: Context, email: String, password: String, completion: (Boolean) -> Unit) {
+    fun registerUser(email: String, password: String, completion: (Boolean) -> Unit) {
         val url = URL_REGISTER
 
         // json body to send
@@ -51,7 +50,7 @@ object AuthService {
         queue.add(registerRequest)
     }
 
-    fun loginUser(context: Context, email: String, password: String, completion: (Boolean) -> Unit?) {
+    fun loginUser(email: String, password: String, completion: (Boolean) -> Unit?) {
         val url = URL_LOGIN
 
         val jsonBody = JSONObject()
@@ -85,7 +84,7 @@ object AuthService {
         queue.add(loginRequest)
     }
 
-    fun createUser(context: Context, name: String, email: String, avatarName: String, avatarColor: String, completion: (Boolean) -> Unit) {
+    fun createUser(name: String, email: String, avatarName: String, avatarColor: String, completion: (Boolean) -> Unit) {
         val jsonBody = JSONObject()
         jsonBody.put("name", name)
         jsonBody.put("email", email)

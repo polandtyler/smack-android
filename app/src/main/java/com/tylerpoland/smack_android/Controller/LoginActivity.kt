@@ -31,7 +31,7 @@ class LoginActivity : AppCompatActivity() {
         hideKeyboard()
 
         if (email.isNotEmpty() && password.isNotEmpty()) {
-            AuthService.loginUser(this, email, password) { authSuccess ->
+            AuthService.loginUser(email, password) { authSuccess ->
                 if (authSuccess) {
                     val userDataChange = Intent(BROADCAST_USER_DATA_CHANGE)
                     LocalBroadcastManager.getInstance(this).sendBroadcast(userDataChange)
