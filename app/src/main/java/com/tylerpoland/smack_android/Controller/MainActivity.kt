@@ -6,21 +6,19 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
 import android.os.Bundle
-import android.os.Message
 import android.support.v4.content.LocalBroadcastManager
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
 import android.support.v7.app.AlertDialog
 import android.support.v7.app.AppCompatActivity
-import android.view.Gravity
 import android.view.View
 import android.view.inputmethod.InputMethodManager
 import android.widget.ArrayAdapter
 import android.widget.EditText
+import android.widget.Toast
 import com.tylerpoland.smack_android.Model.Channel
 import com.tylerpoland.smack_android.R
 import com.tylerpoland.smack_android.Services.AuthService
-import com.tylerpoland.smack_android.Services.AuthService.isLoggedIn
 import com.tylerpoland.smack_android.Services.MessageService
 import com.tylerpoland.smack_android.Services.UserDataService
 import com.tylerpoland.smack_android.Utils.BROADCAST_USER_DATA_CHANGE
@@ -31,6 +29,7 @@ import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.content_main.*
 import kotlinx.android.synthetic.main.nav_header_main.*
+import com.tylerpoland.smack_android.Model.Message
 
 class MainActivity : AppCompatActivity() {
 
@@ -52,6 +51,7 @@ class MainActivity : AppCompatActivity() {
         socket.connect()
         // what to do when channel is created
         socket.on("channelCreated", onNewChannel)
+        socket.on("messageCreated", onNewMessage)
 
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
@@ -168,7 +168,38 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
+    private val onNewMessage = Emitter.Listener { args ->
+        runOnUiThread {
+            val msgBody = args[0] as String
+            val channelId = args[2] as String
+            val userName = args[3] as String
+            val userAvatar = args[4] as String
+            val userAvatarColor = args[5] as String
+            val id = args[6] as String
+            val timeStamp = args[7] as String
+
+            val newMessage = Message(msgBody, userName, channelId, userAvatar, userAvatarColor, id, timeStamp)
+            MessageService.messages.add(newMessage)
+
+        }
+    }
+
     fun sendMessageButtonClicked(view: View) {
+        if (App.sharedPreferences.isLoggedIn && messageTextField.text.isNotEmpty() && selectedChannel != null) {
+            val userID = UserDataService.id
+            val channel = selectedChannel?.id
+            socket.emit("newMessage", messageTextField.text.toString(), userID, channel, UserDataService.name, UserDataService.avatarName, UserDataService.avatarColor)
+            messageTextField.text.clear()
+            hideKeyboard()
+        } else if (!App.sharedPreferences.isLoggedIn) {
+            Toast.makeText( this, "Please log in.", Toast.LENGTH_SHORT).show()
+        } else if (messageTextField.text.isEmpty()) {
+            Toast.makeText( this, "Please input some text.", Toast.LENGTH_SHORT).show()
+        } else if (selectedChannel == null) {
+            Toast.makeText( this, "Please select a channel.", Toast.LENGTH_SHORT).show()
+        } else {
+            Toast.makeText( this, "An error occurred.", Toast.LENGTH_SHORT).show()
+        }
         hideKeyboard()
     }
 

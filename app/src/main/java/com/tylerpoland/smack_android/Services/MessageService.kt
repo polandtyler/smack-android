@@ -5,12 +5,15 @@ import com.android.volley.Response
 import com.android.volley.toolbox.JsonArrayRequest
 import com.tylerpoland.smack_android.Controller.App
 import com.tylerpoland.smack_android.Model.Channel
+import com.tylerpoland.smack_android.Model.Message
 import com.tylerpoland.smack_android.Utils.URL_GET_CHANNELS
 import org.json.JSONException
 
 object MessageService {
 
     val channels = ArrayList<Channel>()
+    val messages = ArrayList<Message>()
+
     private val queue = App.sharedPreferences.requestQueue
 
     fun getChannels(completion: (Boolean) -> Unit) {
