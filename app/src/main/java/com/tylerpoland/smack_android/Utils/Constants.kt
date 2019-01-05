@@ -1,5 +1,8 @@
 package com.tylerpoland.smack_android.Utils
 
+/*
+Constants
+ */
 const val BASE_URL = "https://poland-smack-api.herokuapp.com/v1/"
 const val SOCKET_URL = "https://poland-smack-api.herokuapp.com/"
 const val URL_REGISTER = "${BASE_URL}account/register" // POST - email, password
@@ -20,51 +23,3 @@ const val URL_GET_USER = "${BASE_URL}user/byEmail/"
 Broadcast Constants
  */
 const val BROADCAST_USER_DATA_CHANGE = "BROADCAST_USER_DATA_CHANGE"
-
-
-/*
-****CHANNEL:****
-POST - /channel/add
-    name = req.body.name;
-    description = req.body.description;
-GET (all) - /channel
-GET (id) - /channel/id
-DELETE - /channel/id
-
-****MESSAGE:****
-POST - /message/add
-    messageBody
-    userId
-    channelId
-    userName
-    userAvatar
-    userAvatarColor
- PUT (id) - /message
-    messageBody
-    userId
-    channelId
-    userName
-    userAvatar
-    userAvatarColor
- GET (channelId) - /message/byChannel/channelId
-    channelId
- DELETE (id) - /message/id
- DELETE - /message
-
-****USER:****
-POST - /user/add
-    name
-    email
-    avatarName
-    avatarColor
-GET - /user
-GET (id) - /user/id
-PUT (id) - /user/id
-    name
-    email
-    avatarName
-    avatarColor
-GET (email) - /user/byEmail/email
-DELETE - /user/id
-DELETE - /user
- */
